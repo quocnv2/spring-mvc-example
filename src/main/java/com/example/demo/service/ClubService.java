@@ -7,5 +7,10 @@ import java.util.List;
 
 public interface ClubService {
     List<ClubDTO> findAllClub();
+
     Club saveClub(Club club);
+
+    ClubDTO findAllClubByID(long clubId);
+
+    void updateClub(ClubDTO clubDTO);
 }

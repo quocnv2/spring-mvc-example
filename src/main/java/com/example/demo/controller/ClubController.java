@@ -6,8 +6,10 @@ import com.example.demo.service.ClubService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.List;
@@ -41,5 +43,21 @@ public class ClubController {
         clubService.saveClub(club);
         return "redirect:/clubs";
     }
+
+    @GetMapping("/clubs/{clubId}/edit")
+    public String editClub(@PathVariable("clubId") long clubId, Model model) {
+        ClubDTO club = clubService.findAllClubByID(clubId);
+        model.addAttribute("club", club);
+        return "club-edit";
+    }
+
+    @PostMapping("/clubs/{clubId}/edit")
+    public String updateClub(@PathVariable("clubId") Long clubId, @ModelAttribute("club") ClubDTO clubDTO, BindingResult result, Model model) {
+        clubDTO.setId(clubId);
+        clubService.updateClub(clubDTO);
+        return "redirect:/clubs";
+
+    }
+
 
 }
