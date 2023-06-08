@@ -6,6 +6,7 @@ import com.example.demo.repository.ClubRepository;
 import com.example.demo.service.ClubService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -42,6 +43,11 @@ public class ClubServiceImpl implements ClubService {
     public void updateClub(ClubDTO clubDTO) {
         Club club = mapToClub(clubDTO);
         clubRepository.save(club);
+    }
+
+    @Override
+    public void delete( Long clubId) {
+        clubRepository.deleteById(clubId);
     }
 
     private Club mapToClub(ClubDTO club) {

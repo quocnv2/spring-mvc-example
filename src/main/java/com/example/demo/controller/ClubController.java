@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @Controller
@@ -52,12 +53,26 @@ public class ClubController {
     }
 
     @PostMapping("/clubs/{clubId}/edit")
-    public String updateClub(@PathVariable("clubId") Long clubId, @ModelAttribute("club") ClubDTO clubDTO, BindingResult result, Model model) {
+    public String updateClub(@PathVariable("clubId") Long clubId, @Valid @ModelAttribute("club") ClubDTO clubDTO, BindingResult result) {
+        if (result.hasErrors()) {
+//            model.addAttribute()
+            return "club-edit";
+        }
         clubDTO.setId(clubId);
         clubService.updateClub(clubDTO);
         return "redirect:/clubs";
 
     }
-
+    @GetMapping("/clubs/{clubId}")
+    public String clubDetail(@PathVariable("clubId") long clubId, Model model){
+        ClubDTO clubDTO = clubService.findAllClubByID(clubId);
+        model.addAttribute("club", clubDTO);
+        return "club-detail";
+    }
+    @GetMapping("/clubs/{clubId}/delete")
+    public String deleteClub(@PathVariable("clubId") long clubId){
+        clubService.delete(clubId);
+        return "redirect:/clubs";
+    }
 
 }
