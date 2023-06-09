@@ -63,8 +63,8 @@ public class ClubController {
 
     @GetMapping("/clubs/{clubId}")
     public String clubDetail(@PathVariable("clubId") long clubId, Model model) {
-        ClubDTO clubDTO = clubService.findAllClubByID(clubId);
-        model.addAttribute("club", clubDTO);
+        ClubDTO club = clubService.findAllClubByID(clubId);
+        model.addAttribute("club", club);
         return "club-detail";
     }
 
